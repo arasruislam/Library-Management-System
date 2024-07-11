@@ -1,0 +1,34 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
+    {% tailwind_css %}
+
+    <!-- Title -->
+    <title>
+        {% block webTitle %}
+        Library Management System
+        {% endblock webTitle %}
+    </title>
+</head>
+
+<body class="w-ful lg:w-11/12 m-auto">
+    <!-- Header Import -->
+    {% include 'header.html' %}
+
+    <!-- Body -->
+    {% block body %}
+
+    {% endblock body %}
+
+    <!-- Footer Import -->
+    {% include 'footer.html' %}
+</body>
+
+</html>
