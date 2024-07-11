@@ -29,7 +29,7 @@
 
                 {% if request.user.is_authenticated %}
                 <li><a class="text-xl">Profile</a></li>
-                <li><a class="text-xl">Logout</a></li>
+                <li><a class="text-xl" href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
                 <li><a class="text-xl" href="{% url 'registration' %}">Signup</a></li>
                 <li><a class="text-xl">Login</a></li>
