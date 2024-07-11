@@ -43,7 +43,7 @@ class UserRegistrationForm(UserCreationForm):
             birth_date = self.cleaned_data.get("birth_date")
             city = self.cleaned_data.get("city")
             street_address = self.cleaned_data.get("street_address")
-            image = self.cleaned_data["image"]
+            image = self.cleaned_data.get("image")
 
             UserLibraryAccount.objects.create(
                 user=our_user,

@@ -18,12 +18,25 @@
 
     <div class="navbar-end">
         <div class="dropdown dropdown-end">
-            <div tabindex="0" role="button" class="">
-                <div class="rounded-full" title="profile">
-                    <ion-icon class="btn-circle border text-5xl fill-amber-500 hover:border-amber-500"
-                        name="person-circle-sharp"></ion-icon>
+            {% if request.user.is_authenticated %}                                
+                <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                    <div class="w-10 rounded-full">
+                        {% if request.user.account.image %}
+                            <img alt="Tailwind CSS Navbar component" src="{{ request.user.account.image.url }}" />
+                        {% else %}
+                            <img alt="Tailwind CSS Navbar component" src="{% static 'avatar.jpg' %}" />
+                        {% endif %}
+                    </div>
+                </div>                
+            {% else %}
+                <div tabindex="0" role="button">
+                    <div class="rounded-full" title="profile">
+                        <ion-icon class="btn-circle border text-5xl fill-amber-500 hover:border-amber-500"
+                            name="person-circle-sharp"></ion-icon>
+                    </div>
                 </div>
-            </div>
+            {% endif %}
+                
             <ul tabindex="0"
                 class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow flex flex-col-reverse lg:block">
 
@@ -32,7 +45,7 @@
                 <li><a class="text-xl" href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
                 <li><a class="text-xl" href="{% url 'registration' %}">Signup</a></li>
-                <li><a class="text-xl">Login</a></li>
+                <li><a class="text-xl" href="{% url 'login' %}">Login</a></li>
                 {% endif %}
 
                 <!-- mobile version -->
