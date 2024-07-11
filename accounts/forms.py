@@ -12,6 +12,7 @@ class UserRegistrationForm(UserCreationForm):
     city = forms.CharField(max_length=100)
     postal_code = forms.IntegerField()
     country = forms.CharField(max_length=100)
+    image = forms.ImageField(required=False)
 
     class Meta:
         model = User
@@ -28,6 +29,7 @@ class UserRegistrationForm(UserCreationForm):
             "postal_code",
             "street_address",
             "country",
+            "image",
         ]
 
     def save(self, commit=True):
@@ -41,6 +43,7 @@ class UserRegistrationForm(UserCreationForm):
             birth_date = self.cleaned_data.get("birth_date")
             city = self.cleaned_data.get("city")
             street_address = self.cleaned_data.get("street_address")
+            image = self.cleaned_data["image"]
 
             UserLibraryAccount.objects.create(
                 user=our_user,
@@ -50,6 +53,7 @@ class UserRegistrationForm(UserCreationForm):
                 country=country,
                 city=city,
                 street_address=street_address,
+                image = image,
                 account_no=100000 + our_user.id,
             )
             return our_user

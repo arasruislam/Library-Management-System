@@ -17,6 +17,7 @@ class UserLibraryAccount(models.Model):
     city = models.CharField(max_length=100)
     postal_code = models.IntegerField()
     country = models.CharField(max_length=100)
+    image = models.ImageField(upload_to="profile_images/", blank=True, null=True)
 
     def __str__(self) -> str:
         return f"{self.user.username} - Account No: {self.account_no}"
