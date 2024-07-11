@@ -7,7 +7,7 @@ from core.views import HomeView
 urlpatterns = [
     path("", HomeView.as_view(), name="homepage"),
     path("admin/", admin.site.urls),
-    # path("account/", include("accounts.urls")),
+    path("account/", include("accounts.urls")),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
 

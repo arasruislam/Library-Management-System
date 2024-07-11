@@ -24,11 +24,16 @@
                         name="person-circle-sharp"></ion-icon>
                 </div>
             </div>
-            <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow flex flex-col-reverse lg:block">
-                <li><a>Profile</a></li>
-                <li><a>Logout</a></li>
-                <li><a>Signup</a></li>
-                <li><a>Login</a></li>
+            <ul tabindex="0"
+                class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow flex flex-col-reverse lg:block">
+
+                {% if request.user.is_authenticated %}
+                <li><a class="text-xl">Profile</a></li>
+                <li><a class="text-xl">Logout</a></li>
+                {% else %}
+                <li><a class="text-xl" href="{% url 'registration' %}">Signup</a></li>
+                <li><a class="text-xl">Login</a></li>
+                {% endif %}
 
                 <!-- mobile version -->
                 <span class="border my-2 md:hidden"></span>
