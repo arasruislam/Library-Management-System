@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout
 from .forms import UserRegistrationForm
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.views.generic.base import TemplateView
 
 
 # Registration View
@@ -32,7 +33,3 @@ def UserLogoutView(request):
     logout(request)
     return redirect("homepage")
 
-
-# profile
-def profile(request):
-    return render(request, "accounts/profile.html")
