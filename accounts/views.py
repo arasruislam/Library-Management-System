@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout
 from .forms import UserRegistrationForm
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic.base import TemplateView
+from django.views.generic.base import View
 
 
 # Registration View
@@ -33,3 +33,18 @@ def UserLogoutView(request):
     logout(request)
     return redirect("homepage")
 
+
+# update library account details
+class UserBankAccountUpdateView(View):
+    template_name = "accounts/profile.html"
+
+    # def get(self, request):
+    #     form = UserUpdateForm(instance=request.user)
+    #     return render(request, self.template_name, {"form": form})
+
+    # def post(self, request):
+    #     form = UserUpdateForm(request.POST, instance=request.user)
+    #     if form.is_valid():
+    #         form.save()
+    #         return redirect("profile")  # Redirect to the user's profile page
+    #     return render(request, self.template_name, {"form": form})
