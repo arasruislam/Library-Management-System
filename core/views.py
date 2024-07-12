@@ -12,11 +12,6 @@ class HomeView(TemplateView):
         context["books"] = Book.objects.all()
         return context
 
-
-def demo(request):
-    return render(request, "book_details.html")
-
-
 # Book details
 class BookDetailsView(TemplateView):
     template_name = "book_details.html"
