@@ -12,13 +12,3 @@ class HomeView(TemplateView):
         context["books"] = Book.objects.all()
         return context
 
-# Book details
-class BookDetailsView(TemplateView):
-    template_name = "book_details.html"
-
-    def get_context_data(self, **kwargs):
-        book_id = self.kwargs["id"]
-        book = get_object_or_404(Book, pk=book_id)
-        context = super().get_context_data(**kwargs)
-        context["book"] = book
-        return context
