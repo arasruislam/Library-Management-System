@@ -1,4 +1,4 @@
 DEPOSIT = 1
+BORROW = 2
 
-
-TRANSACTION_TYPE = ((DEPOSIT, "Deposit"))
+TRANSACTION_TYPE = ((DEPOSIT, "Deposit"), (BORROW, "Borrow"))
