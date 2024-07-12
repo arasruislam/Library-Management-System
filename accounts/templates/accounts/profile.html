@@ -31,7 +31,8 @@
                     <p><strong>Postal Code:</strong> {{ user.account.postal_code }}</p>
                 </div>
                 <div class="mt-6">
-                    <a href="#" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">
+                    <a href="{% url 'update_profile' %}"
+                        class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">
                         Edit Information
                     </a>
                 </div>
