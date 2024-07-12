@@ -4,14 +4,14 @@
     <div class="navbar-start">
         <div class="flex items-center space-x-2">
             <img src="{% static 'logo.png' %}" class="w-14 md:w-12" alt="">
-            <a class="text-xl hidden lg:flex font-bold">Library <br> Management</a>
+            <a href="{% url 'homepage' %}" class="text-xl hidden lg:flex font-bold">Library <br> Management</a>
         </div>
     </div>
 
     <!-- nav items -->
     <div class="navbar-center hidden md:flex">
         <ul class="menu menu-horizontal px-1">
-            <li><a>Home</a></li>
+            <li><a href="{% url 'homepage' %}">Home</a></li>
             <li><a>Books</a></li>
         </ul>
     </div>
