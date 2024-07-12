@@ -26,8 +26,10 @@
 
     <!-- Body -->
     <main class="flex-grow my-4 w-11/12 mx-auto">
-        <!-- Category Section -->
+        <!-- Message Section -->
+        {% include 'messages.html' %}
 
+        <!-- Category Section -->
         {% if is_homepage %}
             <nav class="py-4 my-6 border-b border-t">
                 <h2 class="text-center text-4xl mb-4 font-bold">Category</h2>

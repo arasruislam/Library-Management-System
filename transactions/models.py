@@ -4,7 +4,6 @@ from .constants import TRANSACTION_TYPE, DEPOSIT
 
 
 # Create your models here.
-
 class Transaction(models.Model):
     account = models.ForeignKey(
         UserLibraryAccount, related_name="transactions", on_delete=models.CASCADE
@@ -22,3 +21,6 @@ class Transaction(models.Model):
     def save(self, *args, **kwargs):
         self.transaction_type = DEPOSIT  
         super().save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return f"{self.get_transaction_type_display()} {self.amount} tk on {self.timestamp.strftime('%Y-%m-%d %H:%M:%S')} from - {self.account.user.username}"

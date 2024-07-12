@@ -12,11 +12,14 @@
     <div class="navbar-center hidden md:flex">
         <ul class="menu menu-horizontal px-1">
             <li><a href="{% url 'homepage' %}">Home</a></li>
-            <li><a>Books</a></li>
+            <li><a href="{% url 'deposit_money' %}">Deposit</a></li>
         </ul>
     </div>
 
     <div class="navbar-end">
+        <div class="text-blue-900 my-auto font-black px-2">
+            Welcome, {{ request.user.first_name }} (balance : {{request.user.account.balance}})
+        </div>
         <div class="dropdown dropdown-end">
             {% if request.user.is_authenticated %}                                
                 <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
