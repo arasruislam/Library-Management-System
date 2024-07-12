@@ -1,0 +1,57 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+  {% for book in books %}
+  <div
+    class="bg-white shadow-md rounded-lg overflow-hidden flex flex-col h-full"
+  >
+    <!-- Book Image -->
+    <img
+      src="{{ book.image.url }}"
+      alt="{{ book.title }}"
+      class="w-full h-64 object-cover sm:h-48 md:h-64 lg:h-80"
+    />
+
+    <!-- Book Details -->
+    <div class="p-4 flex-grow">
+      <h2 class="text-xl font-bold">{{ book.title }}</h2>
+      <p class="text-gray-700 mt-2">
+        {{ book.description | truncatewords:20 }}
+        <span
+          ><a
+            href="{% url 'book_details' book.id %}"
+            class="text-blue-500"
+            >show more</a
+          ></span
+        >
+      </p>
+      <!-- Details Button -->
+      <!-- <button
+                class="mt-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline">
+                Details
+            </button> -->
+    </div>
+
+    <!-- Borrow Button -->
+    <div class="p-4">
+      {% if user.is_authenticated %}
+      <form action="" method="post">
+        {% csrf_token %}
+        <button
+          type="submit"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Borrow Book
+        </button>
+      </form>
+      {% else %}
+      <p class="mt-4 text-center">
+        Please
+        <a href="{% url 'login' %}" class="text-blue-500 hover:underline"
+          >login</a
+        >
+        first to borrow this book.
+      </p>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
