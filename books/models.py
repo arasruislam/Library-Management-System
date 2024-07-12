@@ -33,3 +33,4 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.user.user.username} review on - {self.book.title}"
+
