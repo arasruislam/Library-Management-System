@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import BookDetailsView, demo
+from .views import BookDetailsView, CategoryView
 
 urlpatterns = [
     path(
@@ -7,5 +7,7 @@ urlpatterns = [
         BookDetailsView.as_view(),
         name="book_details",
     ),
-
+    path(
+        "categories/<slug:category_slug>/", CategoryView.as_view(), name="category_books"
+    ),
 ]

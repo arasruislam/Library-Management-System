@@ -26,9 +26,23 @@
 
     <!-- Body -->
     <main class="flex-grow my-4 w-11/12 mx-auto">
+        <!-- Category Section -->
+
+        {% if is_homepage %}
+            <nav class="py-4 my-6 border-b border-t">
+                <h2 class="text-center text-4xl mb-4 font-bold">Category</h2>
+                <ul class="flex space-x-4 justify-center align-middle">
+                    {% for category in categories %}
+                    <li><a class="badge badge-neutral text-white" href="{% url 'category_books' category.slug %}"
+                            class="text-blue-500">{{ category.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        {% endif %}
 
         {% block body %}
-            <!-- All Books -->
+        <!-- All Books -->
             {% include 'all_books.html' %}
         {% endblock body %}
 

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block webTitle %}Books in Category: {{ selected_category.name }}{% endblock webTitle %}
+
+{% block body %}
+    <div class="text-center mb-12 shadow-md py-2 rounded">
+        <h1>Filtered By: <span class="font-bold">{{ selected_category.name }}</span></h1>
+        <h2 class="my-2">Total Books Found: {{total_result}}</h2>
+
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for book in books %}
+        <div class="bg-white shadow-md rounded-lg overflow-hidden flex flex-col h-full">
+            <img src="{{ book.image.url }}" alt="{{ book.title }}"
+                class="w-full h-64 object-cover sm:h-48 md:h-64 lg:h-80" />
+            <div class="p-4 flex-grow">
+                <h2 class="text-xl font-bold">{{ book.title }}</h2>
+                <p class="text-gray-700 mt-2">{{ book.description|truncatewords:20 }}</p>
+                <a href="{% url 'book_details' book.id %}" class="text-blue-500">show more</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if not books %}
+        <p>No books found for this category.</p>
+    {% endif %}
+{% endblock body %}
