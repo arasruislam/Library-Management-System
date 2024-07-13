@@ -1,9 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView
 from django.shortcuts import get_object_or_404
 from .models import Book, Category
 from django.views.generic import CreateView
+from django.views import View
 from accounts.models import BorrowingHistory, UserLibraryAccount
 from .forms import BorrowForm
 from django.urls import reverse_lazy
@@ -45,31 +46,52 @@ class CategoryView(ListView):
 
 
 # Borrow Book View
-class BorrowBookView(LoginRequiredMixin, CreateView):
-    model = BorrowingHistory
-    form_class = BorrowForm
-    template_name = "borrow_form.html"
-    success_url = reverse_lazy("profile")
+# class BorrowBookView(LoginRequiredMixin, CreateView):
+#     model = BorrowingHistory
+#     form_class = BorrowForm
+#     template_name = "borrow_form.html"
+#     success_url = reverse_lazy("profile")
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs.update({"account": self.request.user.account})
-        return kwargs
+#     def get_form_kwargs(self):
+#         kwargs = super().get_form_kwargs()
+#         kwargs.update({"account": self.request.user.account})
+#         return kwargs
 
-    def form_valid(self, form):
-        book = form.cleaned_data.get("book")
-        account = self.request.user.account
+#     def form_valid(self, form):
+#         book = form.cleaned_data.get("book")
+#         account = self.request.user.account
+
+#         if book.borrowing_price > account.balance:
+#             messages.error(self.request, "Insufficient balance to borrow this book.")
+
+#             return self.form_invalid(form)
+
+#         account.balance -= book.borrowing_price
+#         account.save(update_fields=["balance"])
+
+#         messages.success(
+#             self.request,
+#             f"You have successfully borrowed {book.title} for {book.borrowing_price} tk.",
+#         )
+#         return super().form_valid(form)
+
+
+class BorrowBookView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        book_id = kwargs.get("id")
+        book = get_object_or_404(Book, pk=book_id)
+        account = request.user.account
 
         if book.borrowing_price > account.balance:
             messages.error(self.request, "Insufficient balance to borrow this book.")
-
-            return self.form_invalid(form)
+            return redirect("homepage")
 
         account.balance -= book.borrowing_price
         account.save(update_fields=["balance"])
 
+        BorrowingHistory.objects.create(user=account, book=book)
         messages.success(
-            self.request,
+            request,
             f"You have successfully borrowed {book.title} for {book.borrowing_price} tk.",
         )
-        return super().form_valid(form)
+        return redirect("profile")

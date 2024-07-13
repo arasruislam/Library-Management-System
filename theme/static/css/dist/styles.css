@@ -1143,6 +1143,11 @@ select {
   border-color: rgb(20 184 166 / var(--tw-border-opacity));
 }
 
+.border-red-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(239 68 68 / var(--tw-border-opacity));
+}
+
 .border-b-green-400 {
   --tw-border-opacity: 1;
   border-bottom-color: rgb(74 222 128 / var(--tw-border-opacity));
@@ -1448,6 +1453,11 @@ select {
 .text-gray-200 {
   --tw-text-opacity: 1;
   color: rgb(229 231 235 / var(--tw-text-opacity));
+}
+
+.text-red-900 {
+  --tw-text-opacity: 1;
+  color: rgb(127 29 29 / var(--tw-text-opacity));
 }
 
 .shadow {

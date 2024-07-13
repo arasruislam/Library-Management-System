@@ -29,7 +29,7 @@ class BorrowingHistory(models.Model):
     )
     book = models.ForeignKey(Book, related_name="borrow_book", on_delete=models.CASCADE)
     borrow_at = models.DateTimeField(auto_now_add=True)
-    returned_at = models.DateTimeField(null=True, blank=True)
+    returned_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.user.user.username} borrowed {self.book.title}"
+        return f"{self.user.user.username} borrowed - {self.book.title}"
