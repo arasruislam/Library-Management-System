@@ -1,8 +1,13 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from django.shortcuts import get_object_or_404
 from .models import Book, Category
-
+from django.views.generic import CreateView
+from accounts.models import BorrowingHistory, UserLibraryAccount
+from .forms import BorrowForm
+from django.urls import reverse_lazy
+from django.contrib import messages
 
 # Create your views here.
 
@@ -37,3 +42,34 @@ class CategoryView(ListView):
         context["is_homepage"] = False
         context["total_result"] = self.get_queryset().count()
         return context
+
+
+# Borrow Book View
+class BorrowBookView(LoginRequiredMixin, CreateView):
+    model = BorrowingHistory
+    form_class = BorrowForm
+    template_name = "borrow_form.html"
+    success_url = reverse_lazy("profile")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({"account": self.request.user.account})
+        return kwargs
+
+    def form_valid(self, form):
+        book = form.cleaned_data.get("book")
+        account = self.request.user.account
+
+        if book.borrowing_price > account.balance:
+            messages.error(self.request, "Insufficient balance to borrow this book.")
+
+            return self.form_invalid(form)
+
+        account.balance -= book.borrowing_price
+        account.save(update_fields=["balance"])
+
+        messages.success(
+            self.request,
+            f"You have successfully borrowed {book.title} for {book.borrowing_price} tk.",
+        )
+        return super().form_valid(form)

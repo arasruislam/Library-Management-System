@@ -1,11 +1,13 @@
-from django import forms
+from accounts.models import BorrowingHistory
 from .models import Book
-from accounts.models import BorrowingHistory, UserLibraryAccount
+from django import forms
+
 
 # class BorrowBookForm(forms.ModelForm):
 class BorrowForm(forms.ModelForm):
-    model: BorrowingHistory
-    fields = ['book']
+    class Meta:
+        model = BorrowingHistory
+        fields = ['book']
 
     def __init__(self, *args, **kwargs):
         self.user_account = kwargs.pop('account')
@@ -20,7 +22,7 @@ class BorrowForm(forms.ModelForm):
                 f"Insufficient balance to borrow this book. You need {book.borrowing_price} tk but have {self.user_account.balance} tk"
             )
         return book
-    
+
     def save(self, commit = True):
         self.instance.balance = self.user_account
         return super().save(commit)
