@@ -82,6 +82,16 @@ class BorrowBookView(LoginRequiredMixin, View):
         book = get_object_or_404(Book, pk=book_id)
         account = request.user.account
 
+        already_borrowed = BorrowingHistory.objects.filter(
+            user=account, book=book, returned_at__isnull=True
+        ).exists()
+        if already_borrowed:
+            messages.error(
+                request,
+                "You have already borrowed this book. To borrow it again, please return it first.",
+            )
+            return redirect("homepage")
+
         if book.borrowing_price > account.balance:
             messages.error(self.request, "Insufficient balance to borrow this book.")
             return redirect("homepage")
