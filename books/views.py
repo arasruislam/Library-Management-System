@@ -3,14 +3,11 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView
 from django.shortcuts import get_object_or_404
 from .models import Book, Category
-from django.views.generic import CreateView
 from django.views import View
-from accounts.models import BorrowingHistory, UserLibraryAccount
-from .forms import BorrowForm
+from accounts.models import BorrowingHistory
 from django.urls import reverse_lazy
 from django.contrib import messages
-
-# Create your views here.
+from django.utils import timezone
 
 
 # Book details
@@ -104,4 +101,26 @@ class BorrowBookView(LoginRequiredMixin, View):
             request,
             f"You have successfully borrowed {book.title} for {book.borrowing_price} tk.",
         )
+        return redirect("profile")
+
+
+class ReturnBookView(View):
+    def post(self, request, *args, **kwargs):
+        history_id = kwargs.get("id")
+        borrowing_history = get_object_or_404(BorrowingHistory, id=history_id)
+
+        if borrowing_history.returned_at:
+            messages.error(request, "This book has already been returned.")
+        else:
+            borrowing_history.returned_at = timezone.now()
+            borrowing_history.save()
+
+            user_account = request.user.account
+            user_account.balance += borrowing_history.book.borrowing_price
+            user_account.save()
+
+            messages.success(
+                request,
+                f"{borrowing_history.book.title} has been returned successfully.",
+            )
         return redirect("profile")
