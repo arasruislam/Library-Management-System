@@ -33,5 +33,8 @@ class Review(models.Model):
     comment = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
+    class Meta:
+        unique_together = ("user", "book")
+
     def __str__(self):
         return f"{self.user.user.username} review on - {self.book.title}"
