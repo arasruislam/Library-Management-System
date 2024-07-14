@@ -10,7 +10,10 @@ SECRET_KEY = "django-insecure-c27lxk9#$2qn)dw+-6n7do$z&tdsdrax=(xq++x4_bf7mthvx%
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://library-management-system-bbto.onrender.com",
+    "https://*.127.0.0.1",
+]
 
 # Application definition
 INSTALLED_APPS = [
