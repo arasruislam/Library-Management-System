@@ -66,10 +66,10 @@
                                             {% csrf_token %}
                                             <button id="returnBtn{{ history.id }}" type="submit" class="btn btn-warning btn-xs">Return</button>
                                         </form>
-                                         <a href="" class="btn btn-accent btn-xs">Review</a>
+                                        <a href="{% url 'review_book' history.book.id %}" class="btn btn-accent btn-xs">Review</a>
                                     {% else %}
                                         <button type="button" class="btn btn-success btn-xs" disabled>Returned</button>
-                                        <a href="" class="btn btn-accent btn-xs">Review</a>
+                                        <a href="{% url 'review_book' history.book.id %}" class="btn btn-accent btn-xs">Review</a>
                                     {% endif %}
                                 </td>
                             </tr>

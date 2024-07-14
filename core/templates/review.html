@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block webTitle %}{{ book.title }} - Submit Review{% endblock webTitle %}
+
+{% block body %}
+<div class="max-w-4xl mx-auto my-8 bg-white shadow-md rounded-lg p-6">
+    <h1 class="text-3xl font-bold mb-4">Review for: {{ book.title }}</h1>
+    <form method="post" action="{% url 'review_book' book.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-4">Submit Review</button>
+    </form>
+</div>
+{% endblock body %}

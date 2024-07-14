@@ -2,12 +2,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView
 from django.shortcuts import get_object_or_404
-from .models import Book, Category
+from .models import Book, Category, Review
+from accounts.models import UserLibraryAccount
 from django.views import View
 from accounts.models import BorrowingHistory
-from django.urls import reverse_lazy
 from django.contrib import messages
 from django.utils import timezone
+from .forms import ReviewForm
 
 
 # Book details
@@ -40,6 +41,37 @@ class CategoryView(ListView):
         context["is_homepage"] = False
         context["total_result"] = self.get_queryset().count()
         return context
+
+
+# book review
+class BookReviewView(View):
+    def get(self, request, id):
+        book = get_object_or_404(Book, pk=id)
+        user_account = get_object_or_404(UserLibraryAccount, user=request.user)
+        borrowing_history = BorrowingHistory.objects.filter(
+            user=user_account, book=book
+        ).exists()
+        if borrowing_history:
+            form = ReviewForm()
+            return render(request, "review.html", {"form": form, "book": book})
+        else:
+            messages.error(
+                request, "You can only review books you have borrowed and returned."
+            )
+            return redirect("profile")
+
+    def post(self, request, id):
+        book = get_object_or_404(Book, pk=id)
+        user_account = get_object_or_404(UserLibraryAccount, user=request.user)
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.book = book
+            review.save()
+            messages.success(request, "Thank you for your review!")
+            return redirect("profile")
+        return render(request, "review.html", {"form": form, "book": book})
 
 
 # Borrow Book View

@@ -3,53 +3,61 @@
 {% block webTitle %}{{ book.title }} - Book Details{% endblock webTitle %}
 
 {% block body %}
-<div class="container mx-auto px-4 py-8">
-    <div class="max-w-4xl mx-auto bg-white shadow-md rounded overflow-hidden">
-        <div class="grid grid-cols-1 lg:grid-cols-2">
-            <div class="p-4">
-                <img src="{{ book.image.url }}" alt="{{ book.title }}" class="w-full rounded-lg shadow-md">
-            </div>
-            <div class="p-4">
-                <div class="space-y-2">
-                    <h1 class="text-3xl font-bold mb-4">{{ book.title }}</h1>
-                    <p class="text-gray-700  text-justify mb-4">{{ book.description }}</p>
-                    <p class="text-gray-600"><span class="font-bold"> Publication Date:
-                        </span>{{ book.publication_date }}</p>
-                    <p class="text-gray-600"><span class="font-bold">Borrowing Price: </span>{{ book.borrowing_price }} tk
-                    </p>
-
-                    <!-- Categories -->
-                    <div class="mb-4 flex gap-2">
-                        <p class="text-gray-600 font-bold">Categories:</p>
-                        <ul class="list-disc list-inside flex gap-2">
-                            {% for category in book.category.all %}
-                            <li class="list-none bg-green-100 rounded-full px-2">{{ category.name }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+<div class="grid grid-cols-1 lg:grid-cols-12 justify-between gap-4">
+    <div class="my-4 lg:col-span-8">
+        <div class="max-w-4xl  bg-white shadow-md rounded overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2">
+                <div class="p-4">
+                    <img src="{{ book.image.url }}" alt="{{ book.title }}" class="w-full rounded-lg shadow-md">
                 </div>
+                <div class="p-4">
+                    <div class="space-y-2">
+                        <h1 class="text-3xl font-bold mb-4">{{ book.title }}</h1>
+                        <p class="text-gray-700  text-justify mb-4">{{ book.description }}</p>
+                        <p class="text-gray-600"><span class="font-bold"> Publication Date:
+                            </span>{{ book.publication_date }}</p>
+                        <p class="text-gray-600"><span class="font-bold">Borrowing Price:
+                            </span>{{ book.borrowing_price }} tk
+                        </p>
 
-                <!-- Borrow Button -->
-                <div class="mt-4">
-                    {% if user.is_authenticated %}
-                    <form action="{% url 'borrow_book' book.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            Borrow Book
-                        </button>
-                    </form>
-                    {% else %}
-                    <p class="text-sm text-gray-600">
-                        Please <a href="{% url 'login' %}" class="text-blue-500 hover:underline">login</a> first to
-                        borrow this book.
-                    </p>
-                    {% endif %}
+                        <!-- Categories -->
+                        <div class="mb-4 flex gap-2">
+                            <p class="text-gray-600 font-bold">Categories:</p>
+                            <ul class="list-disc list-inside flex gap-2">
+                                {% for category in book.category.all %}
+                                <li class="list-none bg-green-100 rounded-full px-2">{{ category.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Borrow Button -->
+                    <div class="mt-4">
+                        {% if user.is_authenticated %}
+                        <form action="{% url 'borrow_book' book.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                Borrow Book
+                            </button>
+                        </form>
+                        {% else %}
+                        <p class="text-sm text-gray-600">
+                            Please <a href="{% url 'login' %}" class="text-blue-500 hover:underline">login</a> first to
+                            borrow this book.
+                        </p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
+
+        <p class="text-center mt-6"><a class="btn btn-warning" href="{% url 'homepage' %}">Return Home</a></p>
     </div>
 
-    <p class="text-center mt-6"><a class="btn btn-warning" href="{% url 'homepage' %}">Return Home</a></p>
-</div> 
+    <!-- here with the form user can submit review of this book. if user borrow this book or have an borrowingHistory then. He can review for this book -->
+    <div class="lg:col-span-4">
+        
+    </div>
+</div>
 {% endblock body %}

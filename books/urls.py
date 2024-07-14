@@ -1,4 +1,10 @@
-from .views import BookDetailsView, CategoryView, BorrowBookView, ReturnBookView
+from .views import (
+    BookDetailsView,
+    CategoryView,
+    BorrowBookView,
+    ReturnBookView,
+    BookReviewView,
+)
 from django.urls import path
 
 urlpatterns = [
@@ -7,6 +13,7 @@ urlpatterns = [
         BookDetailsView.as_view(),
         name="book_details",
     ),
+    path("book/review/<int:id>/", BookReviewView.as_view(), name="review_book"),
     path(
         "categories/<slug:category_slug>/",
         CategoryView.as_view(),
